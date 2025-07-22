@@ -1,6 +1,11 @@
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import declarative_base, sessionmaker
 
+TEST_DATABASE_URL = "postgresql+asyncpg://user:password@postgres/app_test"
+
+def get_test_db():
+    return get_db_session(TEST_DATABASE_URL)
+
 Base = declarative_base()
 
 class Database:

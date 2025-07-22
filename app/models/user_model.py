@@ -3,11 +3,12 @@ from datetime import datetime
 from enum import Enum
 import uuid
 from sqlalchemy import (
-    Column, String, Integer, DateTime, Boolean, func, Enum as SQLAlchemyEnum
+    Column, String, CheckConstraint, Integer, DateTime, Boolean, func, Enum as SQLAlchemyEnum
 )
 from sqlalchemy.dialects.postgresql import UUID, ENUM
 from sqlalchemy.orm import Mapped, mapped_column
 from app.database import Base
+
 
 class UserRole(Enum):
     """Enumeration of user roles within the application, stored as ENUM in the database."""
@@ -95,3 +96,18 @@ class User(Base):
         """Updates the professional status and logs the update time."""
         self.is_professional = status
         self.professional_status_updated_at = func.now()
+
+    __tablename__ = "users"
+    
+    username = Column(String(20), unique=True, nullable=False)
+    
+    __table_args__ = (
+        CheckConstraint(
+            "length(username) >= 3 AND length(username) <= 20",
+            name="username_length_check"
+        ),
+        CheckConstraint(
+            "username ~ '^[a-zA-Z0-9_]+$'",
+            name="username_format_check"
+        )
+    )
