@@ -220,6 +220,7 @@ def user_base_data():
         "full_name": "John Doe",
         "bio": "I am a software engineer with over 5 years of experience.",
         "profile_picture_url": "https://example.com/profile_pictures/john_doe.jpg"
+        "nickname": fake.user_name(),
     }
 
 @pytest.fixture
@@ -244,12 +245,14 @@ def user_update_data():
         "full_name": "John H. Doe",
         "bio": "I specialize in backend development with Python and Node.js.",
         "profile_picture_url": "https://example.com/profile_pictures/john_doe_updated.jpg"
+        "first_name": fake.first_name(),
+        "last_name": fake.last_name(),
     }
 
 @pytest.fixture
 def user_response_data():
     return {
-        "id": "unique-id-string",
+        "id": uuid4(),
         "username": "testuser",
         "email": "test@example.com",
         "last_login_at": datetime.now(),
@@ -260,4 +263,4 @@ def user_response_data():
 
 @pytest.fixture
 def login_request_data():
-    return {"username": "john_doe_123", "password": "SecurePassword123!"}
+    return {"email": "john.doe@example.com", "password": "SecurePassword123!"}
